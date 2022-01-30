@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title></title>
+</head>
+<body>
+<script type="text/javascript">const create360Viewer = require('360-image-viewer');
+const canvasFit = require('canvas-fit');
+ 
+// load your image
+const image = new Image();
+image.src = 'http://360-image-viewer-test.surge.sh/pano_7000.jpg';
+ 
+image.onload = () => {
+  // when the image is loaded, setup the viewer
+  const viewer = create360Viewer({
+    image: image
+  });
+ 
+  // attach canvas to body
+  document.body.appendChild(viewer.canvas);
+ 
+  // setup fullscreen canvas sizing
+  const fit = canvasFit(viewer.canvas, window, window.devicePixelRatio);
+  window.addEventListener('resize', fit, false);
+  fit();
+ 
+  // start the render loop
+  viewer.start();
+}; </script>
+
+</body>
+</html>
