@@ -1,35 +1,67 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Visor 360 Pro - Victor Rojas</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.css" />
+    
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #viewer {
+            width: 100vw;
+            height: 100vh;
+        }
+        /* Personalización de la barra de carga */
+        .psv-loader-container {
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
-<script type="text/javascript">const create360Viewer = require('360-image-viewer');
-const canvasFit = require('canvas-fit');
- 
-// load your image
-const image = new Image();
-image.src = 'http://360-image-viewer-test.surge.sh/pano_7000.jpg';
- 
-image.onload = () => {
-  // when the image is loaded, setup the viewer
-  const viewer = create360Viewer({
-    image: image
-  });
- 
-  // attach canvas to body
-  document.body.appendChild(viewer.canvas);
- 
-  // setup fullscreen canvas sizing
-  const fit = canvasFit(viewer.canvas, window, window.devicePixelRatio);
-  window.addEventListener('resize', fit, false);
-  fit();
- 
-  // start the render loop
-  viewer.start();
-}; </script>
+
+    <div id="viewer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/three/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/core/index.min.js"></script>
+
+    <script>
+        const viewer = new PhotoSphereViewer.Viewer({
+            container: document.querySelector('#viewer'),
+            panorama: 'https://raw.githubusercontent.com/VictorRojasC/ImageSpace-360/main/360-1.jpg',
+            caption: 'Espacio 360 <b>Victor Rojas</b>',
+            
+            // CONFIGURACIÓN DE CALIDAD Y MÓVIL
+            loadingImg: 'https://photo-sphere-viewer.js.org/assets/loader.gif',
+            touchmoveTwoFingers: false, // Permite mover con un solo dedo en móvil
+            mousewheel: true,           // Zoom con la rueda del ratón
+            moveSpeed: 1.2,             // Velocidad de giro
+            zoomSpeed: 1,               // Velocidad de zoom
+            fisheye: false,             // Evita distorsión de "ojo de pez" para más realismo
+            
+            // BARRA DE HERRAMIENTAS (Incluye botón de pantalla completa para móvil)
+            navbar: [
+                'autorotate',
+                'zoom',
+                'download',
+                'fullscreen',
+                'caption'
+            ],
+        });
+
+        // Ajuste automático si el móvil gira (Portrait/Landscape)
+        window.addEventListener('resize', () => {
+            viewer.needsUpdate();
+        });
+    </script>
 
 </body>
 </html>
